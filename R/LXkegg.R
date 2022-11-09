@@ -31,6 +31,51 @@ LXkegg <- function(gene_file,group1,group2){
   rm(i)
 
 
+  conflict_scout()
+
+  conflict_prefer("%+%", "psych")
+  conflict_prefer("distance", "psych")
+
+  conflict_prefer("filter", "dplyr")
+  conflict_prefer("lag", "dplyr")
+  conflict_prefer("arrange", "dplyr")
+  conflict_prefer("select", "dplyr")
+  conflict_prefer("summarise", "dplyr")
+  conflict_prefer("summarize", "dplyr")
+  conflict_prefer("rename", "dplyr")
+  conflict_prefer("mutate", "dplyr")
+  conflict_prefer("count", "dplyr")
+  conflict_prefer("failwith", "dplyr")
+  conflict_prefer("id", "dplyr")
+  conflict_prefer("combine", "dplyr")
+  conflict_prefer("desc", "dplyr")
+  conflict_prefer("collapse", "dplyr")
+  conflict_prefer("slice", "dplyr")
+
+  conflict_prefer("Position", "ggplot2")
+
+
+
+  pack2 <- data.frame(c("tidyverse") )
+
+  # To judge whether a package was included in the all_packages: %in%
+  pack$type <- pack2[,1] %in% all_packages$Package
+
+  for (i in 1:nrow(pack2)){
+    if(pack[i,2]==FALSE)
+      install.packages(pack2[i,1],update = F,ask = F)
+  }
+  rm(i)
+
+  # 批量library
+  packages <- as.character(pack2[,1])
+
+  for(i in packages){
+    library(i, character.only = T)
+  }
+  rm(i)
+
+
 
   BiocManager_pack <- data.frame(c("DOSE","clusterProfiler","do","enrichplot",
                                  "pathview","BiocParallel","org.Hs.eg.db","GO.db"))
@@ -49,31 +94,10 @@ LXkegg <- function(gene_file,group1,group2){
   }
   rm(i)
 
-  conflict_scout()
-  
-  conflict_prefer("%+%", "psych")
-  conflict_prefer("distance", "psych")
-  
-  conflict_prefer("filter", "dplyr")
-  conflict_prefer("lag", "dplyr")
-  conflict_prefer("arrange", "dplyr")
-  conflict_prefer("select", "dplyr")
-  conflict_prefer("summarise", "dplyr")
-  conflict_prefer("summarize", "dplyr")
-  conflict_prefer("rename", "dplyr")
-  conflict_prefer("mutate", "dplyr")
-  conflict_prefer("count", "dplyr")
-  conflict_prefer("failwith", "dplyr")
-  conflict_prefer("id", "dplyr")
-  conflict_prefer("combine", "dplyr")
-  conflict_prefer("desc", "dplyr")
-  conflict_prefer("collapse", "dplyr")
-  conflict_prefer("slice", "dplyr")
-  
-  conflict_prefer("Position", "ggplot2")
-  
-#---------------------------------------  
-  
+
+
+#---------------------------------------
+
   group <- paste("(",group1,"VS",group2,")")
   gene_df_0 <- read.xlsx(gene_file)
 
